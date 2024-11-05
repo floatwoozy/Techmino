@@ -1,9 +1,9 @@
-local OS=love._os
-if OS=='OS X' then OS='macOS' end
-MOBILE=OS=='Android' or OS=='iOS'
-FNNS=OS:find'\79\83' -- What does FNSF stand for? IDK so don't ask me lol
+local system=love._os
+if system=='OS X' then system='macOS' end
+MOBILE=system=='Android' or system=='iOS'
+FNNS=system:find'\79\83' -- What does FNSF stand for? IDK so don't ask me lol
 
-if OS=='Web' then
+if system=='Web' then
     local oldRead=love.filesystem.read
     function love.filesystem.read(name,size)
         if love.filesystem.getInfo(name) then
@@ -23,6 +23,7 @@ function love.conf(t)
         local fileData=fs.read('conf/settings')
         if fileData then
             msaa=tonumber(fileData:match('"msaa":(%d+)')) or 0;
+            msaa=msaa==0 and 0 or 2*msaa
             portrait=MOBILE and fileData:find('"portrait":true') and true
         end
     end
